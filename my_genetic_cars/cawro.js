@@ -42,7 +42,7 @@ var cw_graphAverage = new Array();
 
 var gen_champions = 3;
 var gen_parentality = 0.2;
-var gen_mutation = 0.3;
+var gen_mutation = 0.05;
 var gen_counter = 0;
 var nAttributes = 14; // change this when genome changes
 
@@ -290,7 +290,7 @@ function cw_createRandomCar() {
   var v2;
   var car_def = new Object();
   car_def.wheel_radius1 = 0.7; //Math.random()*wheelMaxRadius+wheelMinRadius;
-  car_def.wheel_radius2 =  Math.random() * 0.7; // Math.random()*wheelMaxRadius+wheelMinRadius;
+  car_def.wheel_radius2 =  Math.random() * 0.4 + 0.3; // Math.random()*wheelMaxRadius+wheelMinRadius;
   car_def.wheel_density1 = 160; // Math.random()*wheelMaxDensity+wheelMinDensity;
   car_def.wheel_density2 = 40; // Math.random()*wheelMaxDensity+wheelMinDensity;
 
@@ -299,7 +299,7 @@ function cw_createRandomCar() {
   car_def.vertex_list.push(new b2Vec2(1.0, 0.5));
   car_def.vertex_list.push(new b2Vec2(0, 0.01));
   car_def.vertex_list.push(new b2Vec2(-2.0, 0.01));
-  car_def.vertex_list.push(new b2Vec2(-Math.random() * 2.0, 0));
+  car_def.vertex_list.push(new b2Vec2(-Math.random() - 1.0, 0));
   car_def.vertex_list.push(new b2Vec2(-2.0, -0.01));
   car_def.vertex_list.push(new b2Vec2(0, -0.01));
   car_def.vertex_list.push(new b2Vec2(1.0, -0.5));

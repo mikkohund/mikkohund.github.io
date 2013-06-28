@@ -1,4 +1,4 @@
 mikkohund.github.io
 ===================
 
-Mikko's website
+Mikko's website at [mikko.ca](http://mikko.ca)
