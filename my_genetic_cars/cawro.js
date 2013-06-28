@@ -40,9 +40,9 @@ var cw_graphTop = new Array();
 var cw_graphElite = new Array();
 var cw_graphAverage = new Array();
 
-var gen_champions = 1;
+var gen_champions = 3;
 var gen_parentality = 0.2;
-var gen_mutation = 0.05;
+var gen_mutation = 0.3;
 var gen_counter = 0;
 var nAttributes = 14; // change this when genome changes
 
@@ -60,13 +60,13 @@ var last_drawn_tile = 0;
 var groundPieceWidth = 1.5;
 var groundPieceHeight = 0.15;
 
-var chassisMaxAxis = 1.1;
-var chassisMinAxis = 0.1;
+var chassisMaxAxis = 1.5;
+var chassisMinAxis = 0.3;
 
 var wheelMaxRadius = 0.5;
 var wheelMinRadius = 0.2;
 var wheelMaxDensity = 100;
-var wheelMinDensity = 40;
+var wheelMinDensity = 60;
 var wheelDensityRange = wheelMaxDensity + wheelMinDensity;
 
 var velocityIndex = 0;
@@ -235,7 +235,7 @@ function cw_createChassisPart(body, vertex1, vertex2) {
   var fix_def = new b2FixtureDef();
   fix_def.shape = new b2PolygonShape();
   fix_def.density = 80;
-  fix_def.friction = 10;
+  fix_def.friction = 0;
   fix_def.restitution = 0.2;
   fix_def.filter.groupIndex = -1;
   fix_def.shape.SetAsArray(vertex_list,3);
@@ -274,7 +274,7 @@ function cw_createWheel(radius, density) {
   var fix_def = new b2FixtureDef();
   fix_def.shape = new b2CircleShape(radius);
   fix_def.density = density;
-  fix_def.friction = 1;
+  fix_def.friction = 10;
   fix_def.restitution = 0.2;
   fix_def.filter.groupIndex = -1;
 
@@ -285,25 +285,33 @@ function cw_createWheel(radius, density) {
 function cw_createRandomCar() {
   var v2;
   var car_def = new Object();
-  car_def.wheel_radius1 = Math.random()*wheelMaxRadius+wheelMinRadius;
-  car_def.wheel_radius2 = Math.random()*wheelMaxRadius+wheelMinRadius;
-  car_def.wheel_density1 = Math.random()*wheelMaxDensity+wheelMinDensity;
-  car_def.wheel_density2 = Math.random()*wheelMaxDensity+wheelMinDensity;
+  car_def.wheel_radius1 = 0.7; //Math.random()*wheelMaxRadius+wheelMinRadius;
+  car_def.wheel_radius2 =  0.7; // Math.random()*wheelMaxRadius+wheelMinRadius;
+  car_def.wheel_density1 = 160; // Math.random()*wheelMaxDensity+wheelMinDensity;
+  car_def.wheel_density2 = 40; // Math.random()*wheelMaxDensity+wheelMinDensity;
 
   car_def.vertex_list = new Array();
-  car_def.vertex_list.push(new b2Vec2(Math.random()*chassisMaxAxis + chassisMinAxis,0));
-  car_def.vertex_list.push(new b2Vec2(Math.random()*chassisMaxAxis + chassisMinAxis,Math.random()*chassisMaxAxis + chassisMinAxis));
-  car_def.vertex_list.push(new b2Vec2(0,Math.random()*chassisMaxAxis + chassisMinAxis));
-  car_def.vertex_list.push(new b2Vec2(-Math.random()*chassisMaxAxis - chassisMinAxis,Math.random()*chassisMaxAxis + chassisMinAxis));
-  car_def.vertex_list.push(new b2Vec2(-Math.random()*chassisMaxAxis - chassisMinAxis,0));
-  car_def.vertex_list.push(new b2Vec2(-Math.random()*chassisMaxAxis - chassisMinAxis,-Math.random()*chassisMaxAxis - chassisMinAxis));
-  car_def.vertex_list.push(new b2Vec2(0,-Math.random()*chassisMaxAxis - chassisMinAxis));
-  car_def.vertex_list.push(new b2Vec2(Math.random()*chassisMaxAxis + chassisMinAxis,-Math.random()*chassisMaxAxis - chassisMinAxis));
+  car_def.vertex_list.push(new b2Vec2(1.0, 0));
+  car_def.vertex_list.push(new b2Vec2(1.0, 0.5));
+  car_def.vertex_list.push(new b2Vec2(0, 0.01));
+  car_def.vertex_list.push(new b2Vec2(-2.0, 0.01));
+  car_def.vertex_list.push(new b2Vec2(-2.0, 0));
+  car_def.vertex_list.push(new b2Vec2(-2.0, -0.01));
+  car_def.vertex_list.push(new b2Vec2(0, -0.01));
+  car_def.vertex_list.push(new b2Vec2(1.0, -0.5));
+  // car_def.vertex_list.push(new b2Vec2(Math.random()*chassisMaxAxis + chassisMinAxis,0));
+  // car_def.vertex_list.push(new b2Vec2(Math.random()*chassisMaxAxis + chassisMinAxis,Math.random()*chassisMaxAxis + chassisMinAxis));
+  // car_def.vertex_list.push(new b2Vec2(0,Math.random()*chassisMaxAxis + chassisMinAxis));
+  // car_def.vertex_list.push(new b2Vec2(-Math.random()*chassisMaxAxis - chassisMinAxis,Math.random()*chassisMaxAxis + chassisMinAxis));
+  // car_def.vertex_list.push(new b2Vec2(-Math.random()*chassisMaxAxis - chassisMinAxis,0));
+  // car_def.vertex_list.push(new b2Vec2(-Math.random()*chassisMaxAxis - chassisMinAxis,-Math.random()*chassisMaxAxis - chassisMinAxis));
+  // car_def.vertex_list.push(new b2Vec2(0,-Math.random()*chassisMaxAxis - chassisMinAxis));
+  // car_def.vertex_list.push(new b2Vec2(Math.random()*chassisMaxAxis + chassisMinAxis,-Math.random()*chassisMaxAxis - chassisMinAxis));
 
-  car_def.wheel_vertex1 = Math.floor(Math.random()*8)%8;
+  car_def.wheel_vertex1 = 0; // Math.floor(Math.random()*8)%8;
   v2 = car_def.wheel_vertex1;
   while(v2 == car_def.wheel_vertex1) {
-    v2 = Math.floor(Math.random()*8)%8
+    v2 = 4; //Math.floor(Math.random()*8)%8
   }
   car_def.wheel_vertex2 = v2;
 
@@ -318,11 +326,11 @@ function cw_createRandomCar() {
 
 function cw_createFloor() {
   var last_tile = null;
-  var tile_position = new b2Vec2(-5,0);
+  var tile_position = new b2Vec2(-5,-1);
   cw_floorTiles = new Array();
   Math.seedrandom(floorseed);
   for(var k = 0; k < maxFloorTiles; k++) {
-    last_tile = cw_createFloorTile(tile_position, (Math.random()*3 - 1.5) * 1.5*k/maxFloorTiles);
+    last_tile = cw_createFloorTile(tile_position, ((Math.random()*3 - 1.5) * 1.5*k/maxFloorTiles) + 0.1);
     cw_floorTiles.push(last_tile);
     last_fixture = last_tile.GetFixtureList();
     last_world_coords = last_tile.GetWorldPoint(last_fixture.GetShape().m_vertices[3]);
@@ -339,7 +347,7 @@ function cw_createFloorTile(position, angle) {
   var body = world.CreateBody(body_def);
   fix_def = new b2FixtureDef();
   fix_def.shape = new b2PolygonShape();
-  fix_def.friction = 0.5;
+  fix_def.friction = 1;
 
   var coords = new Array();
   coords.push(new b2Vec2(0,0));
@@ -772,13 +780,13 @@ function cw_drawMiniMap() {
   minimapcanvas.width = minimapcanvas.width;
   minimapctx.strokeStyle = "#000";
   minimapctx.beginPath();
-  minimapctx.moveTo(0,35 * minimapscale);
+  minimapctx.moveTo(0,60 * minimapscale);
   for(var k = 0; k < cw_floorTiles.length; k++) {
     last_tile = cw_floorTiles[k];
     last_fixture = last_tile.GetFixtureList();
     last_world_coords = last_tile.GetWorldPoint(last_fixture.GetShape().m_vertices[3]);
     tile_position = last_world_coords;
-    minimapctx.lineTo((tile_position.x + 5) * minimapscale, (-tile_position.y + 35) * minimapscale);
+    minimapctx.lineTo((tile_position.x + 5) * minimapscale, (-tile_position.y + 60) * minimapscale);
   }
   minimapctx.stroke();
 }
