@@ -215,6 +215,10 @@ cw_Car.prototype.checkDeath = function() {
     if(position.x > this.maxPosition) {
       this.maxPosition = position.x;
     }
+    // handle case where car drops over the edge
+    if(position.y < 500) {
+      this.health -= 5;
+    }
     if(Math.abs(this.chassis.GetLinearVelocity().x) < 0.001) {
       this.health -= 5;
     }
