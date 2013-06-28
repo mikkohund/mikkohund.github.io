@@ -295,7 +295,7 @@ function cw_createRandomCar() {
   car_def.vertex_list.push(new b2Vec2(1.0, 0.5));
   car_def.vertex_list.push(new b2Vec2(0, 0.01));
   car_def.vertex_list.push(new b2Vec2(-2.0, 0.01));
-  car_def.vertex_list.push(new b2Vec2(-Math.random() + 1.0, 0));
+  car_def.vertex_list.push(new b2Vec2(-Math.random() - 1.0, 0));
   car_def.vertex_list.push(new b2Vec2(-2.0, -0.01));
   car_def.vertex_list.push(new b2Vec2(0, -0.01));
   car_def.vertex_list.push(new b2Vec2(1.0, -0.5));
