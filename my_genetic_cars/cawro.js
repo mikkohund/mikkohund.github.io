@@ -42,7 +42,7 @@ var cw_graphAverage = new Array();
 
 var gen_champions = 3;
 var gen_parentality = 0.2;
-var gen_mutation = 0.3;
+var gen_mutation = 0.05;
 var gen_counter = 0;
 var nAttributes = 14; // change this when genome changes
 
