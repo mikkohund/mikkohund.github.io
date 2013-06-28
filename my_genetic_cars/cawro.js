@@ -602,7 +602,7 @@ function cw_drawScreen() {
 
 function cw_minimapCamera(x, y) {
   minimapcamera.left = Math.round((2+camera_x) * minimapscale) + "px";
-  minimapcamera.top = Math.round((31-camera_y) * minimapscale) + "px";
+  minimapcamera.top = Math.round((56-camera_y) * minimapscale) + "px";
 }
 
 function cw_setCameraTarget(k) {
